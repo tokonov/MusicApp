@@ -1,39 +1,42 @@
-import { createContext , useState} from "react";
+import { createContext, useState } from "react";
 import trackList from "../assets/trackList";
 
-const audio  = new Audio()
+const defaultTrack = trackList[0];
 
-export const AudioContext  = createContext({})
+const audio = new Audio(defaultTrack.src);
 
-const AudioProvider = ({children}) => {
-    const [currentTrack , setCurrentTrack] = useState(trackList[0])
-    const [isPlaying , setPlaying] = useState(false)
+export const AudioContext = createContext({});
 
-    const handleToggleAudio = (track) => {
-        if (currentTrack.id !== track.id) {
-            setCurrentTrack(track);
-            setPlaying(true);
-      
-            audio.src = track.src;
-            audio.currentTime = 0;
-            audio.play();
-      
-            return;
-          }
+const AudioProvider = ({ children }) => {
+  const [currentTrack, setCurrentTrack] = useState(defaultTrack);
+  const [isPlaying, setPlaying] = useState(false);
 
+  const handleToggleAudio = (track) => {
+    if (currentTrack.id !== track.id) {
+      setCurrentTrack(track);
+      setPlaying(true);
 
-        if (isPlaying){
-            audio.pause()
-            setPlaying(false)
-        }else{
-            audio.play()
-            setPlaying(true)
-        }
+      audio.src = track.src;
+      audio.currentTime = 0;
+      audio.play();
+
+      return;
     }
 
-    const value = {currentTrack , isPlaying , handleToggleAudio}
+    if (isPlaying) {
+      audio.pause();
+      setPlaying(false);
+    } else {
+      audio.play();
+      setPlaying(true);
+    }
+  };
 
-    return <AudioContext.Provider value={value}>{children}</AudioContext.Provider>
-}
+  const value = { audio, currentTrack, isPlaying, handleToggleAudio };
+
+  return (
+    <AudioContext.Provider value={value}>{children}</AudioContext.Provider>
+  );
+};
 
 export default AudioProvider;
