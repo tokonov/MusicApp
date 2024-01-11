@@ -6,7 +6,6 @@ const App =  () => {
   return (
     <div className={style.wrapper}>
       <MainPage/>
-      <Playbar />
     </div>
   )
 }

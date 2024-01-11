@@ -3,6 +3,8 @@ import tracksList from "../../assets/trackList";
 import style from "./mainPage.module.scss";
 import Track from "../../components/Track/Track";
 import { Input } from "@mui/material";
+import Playbar from "../../components/Playbar/Playbar";
+
 
 const runSearch = (query) => {
   if (!query) {
@@ -38,6 +40,7 @@ const MainPage = () => {
           <Track key={track.id} {...track} />
         ))}
       </div>
+      <Playbar />
     </div>
   );
 };
